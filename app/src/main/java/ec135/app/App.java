@@ -11,11 +11,45 @@ import static ec135.app.MessageUtils.getMessage;
 
 import org.apache.commons.text.WordUtils;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 public class App {
     public static void main(String[] args) {
         LinkedList tokens;
         tokens = split(getMessage());
         String result = join(tokens);
         System.out.println(WordUtils.capitalize(result));
+        DBInsert();
     }
+
+    public static void DBInsert() {
+
+        try{
+            String myUrl = "jdbc:mariadb://localhost/silkpurse";
+            Connection conn = DriverManager.getConnection(myUrl, "alice", "madhatter");
+            
+            String query = "INSERT INTO test ( addr ) VALUES (?)";
+            PreparedStatement pstmt = null;
+            pstmt = conn.prepareStatement(query);
+            
+            pstmt.setString(1, "alskd1234567890flkj");
+            
+            int iInsCnt = pstmt.executeUpdate();
+            
+          if (iInsCnt > 0) {
+            System.out.println("Insert Success");
+          } else {
+            System.out.println("Insert Fail");
+          }
+          
+          pstmt.close();
+        }catch(Exception e){
+          e.printStackTrace();
+        }
+      }    
+
+
 }

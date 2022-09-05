@@ -9,9 +9,31 @@ plugins {
 dependencies {
     implementation 'org.apache.commons:commons-text'
     implementation project(':utilities')
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.7'
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'ec135.app.App'
+}
+
+task fatJar(type: Jar) {
+    manifest.from jar.manifest
+    classifier = 'all'
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': 'ec135.app.App'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/.SF"
+        exclude "META-INF/.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
+}
+artifacts {
+    archives fatJar
 }

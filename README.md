@@ -68,3 +68,13 @@ Get more help with your project: https://docs.gradle.org/7.4.2/samples/sample_bu
 
 BUILD SUCCESSFUL in 27s
 2 actionable tasks: 2 executed
+
+
+ gradle build
+ gradle run
+ gradle build
+ gradle run
+ gradle fatjar
+ find . -name *.jar
+ java -jar ./app/build/libs/app-all.jar
+ 
